@@ -101,7 +101,8 @@ class Ball extends BodyComponent with ContactCallbacks {
 
     if (other is Ball && other.radius == radius) {
       shouldBeMerged = true;
-      other.shouldBeMerged = true;
+      other.shouldBeMerged = false;
+      other.removeFromParent();
     }
   }
 }

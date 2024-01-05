@@ -37,17 +37,15 @@ class Suika extends Forge2DGame with TapDetector {
     }
   }
 
-  void addMergedBall(Vector2 position, double radius) {
-    List<double> radiuses = [15, 30, 45, 60, 75, 90];
-    int currentIndex = radiuses.indexOf(radius);
-
-    // Ensure there is a next radius available
-    if (currentIndex < radiuses.length - 1) {
-      double nextRadius = radiuses[currentIndex + 1];
-      final ball = Ball(initialPosition: position, radius: nextRadius);
-      add(ball);
+  void addNextRadiusBall(Ball ball) {
+    List<double> radiuses = [15, 30, 45, 60, 75, 90, 105, 120];
+    final index = radiuses.indexOf(ball.radius);
+    if (index < radiuses.length - 1) {
+      final nextRadius = radiuses[index + 1];
+      final newBall =
+          Ball(initialPosition: ball.body.position.clone(), radius: nextRadius);
+      add(newBall);
     }
-    // Optionally, handle the case where there is no larger radius available
   }
 
   void addBallAtPosition(Vector2 position) {
@@ -70,19 +68,21 @@ class Suika extends Forge2DGame with TapDetector {
   void update(double dt) {
     super.update(dt);
 
-    Map<Vector2, double> mergePositions = {};
-
+    List<Ball> ballsToMerge = [];
     for (var component in children) {
       if (component is Ball &&
           component.shouldBeMerged &&
           component.isMounted) {
-        mergePositions[component.body.position] = component.radius;
-        component.removeFromParent(); // Remove the ball
+        ballsToMerge.add(component);
       }
     }
 
-    mergePositions.forEach((position, radius) {
-      addMergedBall(position, radius);
-    });
+    // Process merging logic
+    for (var ball in ballsToMerge) {
+      print('Merging ball at ${ball.body.position}');
+      ball.removeFromParent(); // Remove the ball
+      // Add logic to create a new, larger ball
+      addNextRadiusBall(ball);
+    }
   }
 }
