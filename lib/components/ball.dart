@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +10,7 @@ class Ball extends BodyComponent with ContactCallbacks {
   bool shouldBeMerged = false;
 
   Ball({this.initialPosition, required this.radius}) {
-    color = _getColorForRadius(radius);
+    color = getColorForRadius(radius);
 
     fixtureDefs = [
       FixtureDef(
@@ -26,8 +28,15 @@ class Ball extends BodyComponent with ContactCallbacks {
       type: BodyType.dynamic,
     );
   }
+  Color getNextBallColor() {
+    List<double> radiuses = [15, 30, 45, 60, 75, 90, 105, 120];
+    int nextRadiusIndex = Random().nextInt(radiuses.length);
+    double nextRadius = radiuses[nextRadiusIndex];
+    return getColorForRadius(
+        nextRadius); // Assuming getColorForRadius is accessible
+  }
 
-  Color _getColorForRadius(double radius) {
+  Color getColorForRadius(double radius) {
     // Define color based on radius
     switch (radius.toInt()) {
       case 15:
@@ -42,6 +51,10 @@ class Ball extends BodyComponent with ContactCallbacks {
         return Colors.purple;
       case 90:
         return Colors.orange;
+      case 105:
+        return Colors.pink;
+      case 120:
+        return Colors.teal;
       // Add more cases as needed
       default:
         return Colors.grey; // Default color
