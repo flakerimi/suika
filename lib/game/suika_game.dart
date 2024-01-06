@@ -64,8 +64,10 @@ class Suika extends Forge2DGame with TapDetector, MouseMovementDetector {
     // Check if the tap is within the bounds of the game
     if (lisa != null) {
       // Use Lisa's position to add a new ball
+      print("lisa position: ${lisa!.position}");
+      print("topWall position: ${topWall.position}");
       Vector2 lisaPosition = lisa!.position.clone();
-      Vector2 ballPosition = Vector2(lisaPosition.x, lisaPosition.y + 100);
+      Vector2 ballPosition = Vector2(lisaPosition.x,   lisaPosition.y *4 );
 
       GameLogic.addBallAtPosition(this, ballPosition);
     }

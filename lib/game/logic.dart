@@ -8,12 +8,36 @@ import 'package:suika/components/ball.dart';
 class GameLogic {
   static final List<double> _radiuses = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100,110,120];
   static RxInt score = 0.obs;
+   static double currentBallRadius = 10; // Initialize with default radius
+  static double nextBallRadius = 10; // Initialize with default radius for next ball
+  static final Rx<Color> currentBallColor = const Color(0xFFFFFFFF).obs; // default color
+  static final Rx<Color> nextBallColor = const Color(0xFFFFFFFF).obs; // default color for next ball
+
+  static void initializeBalls() {
+    determineNextBall(); // Set the initial next ball
+    moveToNextBall(); // Set the initial current ball
+  }
+
+  static void determineNextBall() {
+    int nextRadiusIndex = Random().nextInt(_radiuses.length);
+    nextBallRadius = _radiuses[nextRadiusIndex];
+    Ball ball = Ball(initialPosition: Vector2.zero(), radius: nextBallRadius);
+    nextBallColor.value = ball.getColorForRadius(nextBallRadius);
+  }
+
+  static void moveToNextBall() {
+    currentBallRadius = nextBallRadius;
+    currentBallColor.value = nextBallColor.value;
+    determineNextBall(); // Determine the new next ball
+  }
+
   static void addBallAtPosition(Forge2DGame game, Vector2 position) {
     final ball = Ball(
       initialPosition: position,
-      radius: _radiuses[Random().nextInt(_radiuses.length - 4)],
+      radius: nextBallRadius,
     );
     game.add(ball);
+    moveToNextBall(); // Determine the radius for the next ball to be added
   }
 
   static void addNextRadiusBall(Forge2DGame game, Ball ball) {
@@ -57,10 +81,9 @@ class GameLogic {
         position.y < screenSize.y - 100;
   }
 
-  static Color getNextBallColor() {
-    int nextRadiusIndex = Random().nextInt(_radiuses.length);
-    double nextRadius = _radiuses[nextRadiusIndex];
-    Ball ball = Ball(initialPosition: Vector2.zero(), radius: nextRadius);
-    return ball.getColorForRadius(nextRadius);
+   static Color getNextBallColor() {
+    // Use the stored next ball radius
+    Ball ball = Ball(initialPosition: Vector2.zero(), radius: nextBallRadius);
+    return ball.getColorForRadius(nextBallRadius);
   }
 }
