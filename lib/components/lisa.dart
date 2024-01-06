@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:flame/components.dart';
 import 'package:suika/components/ball.dart';
 import 'package:suika/game/suika_game.dart';
@@ -13,9 +14,9 @@ class Lisa extends PositionComponent with HasGameRef<Suika> {
   Lisa(this.boxPosition, this.boxHeight, this.worldSize, Image characterImage) {
     characterSprite = SpriteComponent(
       sprite: Sprite(characterImage),
-      size: Vector2.all(50.0), // Set the size as needed
+      size: Vector2.all(100.0), // Set the size as needed
     );
-    position = boxPosition;
+    position = boxPosition ;
     size = characterSprite.size;
     add(characterSprite);
 
@@ -26,15 +27,17 @@ class Lisa extends PositionComponent with HasGameRef<Suika> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    position = Vector2(boxPosition.x, boxPosition.y - boxHeight - size.y);
+    position = Vector2(boxPosition.x, boxPosition.y + 100 - size.y);
   }
 
   // Follow the mouse horizontally
   @override
   void update(double dt) {
     super.update(dt);
-    position = Vector2(gameRef.getMouseX(), position.y);
-  }
+    // Update Lisa's position to follow the mouse horizontally
+    // not going beyond the left + 230 and right -20 edges of the screen
+    position.x = (gameRef.mousePosition.x - size.x / 2)
+        .clamp(230, worldSize.x - size.x - 20);  }
 
   @override
   void render(Canvas canvas) {

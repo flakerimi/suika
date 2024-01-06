@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'ui.dart';
+import 'package:suika/ui/main_menu.dart';
 
 void main() {
-  runApp(const Ui());
+  runApp(const MainMenu());
 }

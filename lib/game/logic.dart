@@ -1,11 +1,12 @@
 import 'dart:math';
+
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:suika/components/ball.dart';
 
 class GameLogic {
-  static final List<double> _radiuses = [15, 30, 45, 60, 75, 90, 105, 120];
+  static final List<double> _radiuses = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100,110,120];
   static RxInt score = 0.obs;
   static void addBallAtPosition(Forge2DGame game, Vector2 position) {
     final ball = Ball(
@@ -42,10 +43,16 @@ class GameLogic {
     return 0;
   }
 
+  // lets make top wall to end the game
+  static bool isGameOver(Vector2 position, Vector2 screenSize) {
+    // Define the bounds within which the ball can be added
+    return position.y < 100;
+  }
+
   static bool isWithinBounds(Vector2 position, Vector2 screenSize) {
     // Define the bounds within which the ball can be added
-    return position.x > 100 &&
-        position.x < screenSize.x - 100 &&
+    return position.x > 230 &&
+        position.x < screenSize.x  -50 &&
         position.y > 100 &&
         position.y < screenSize.y - 100;
   }

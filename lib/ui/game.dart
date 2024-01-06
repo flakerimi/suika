@@ -1,20 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:suika/components/next_ball.dart';
 import 'package:suika/game/logic.dart';
 import 'package:suika/game/suika_game.dart';
-import 'package:suika/components/next_ball.dart';
 
-class Ui extends StatelessWidget {
-  const Ui({super.key});
+class Game extends StatelessWidget {
+  const Game({Key? key}) : super(key: key);
+   
 
   @override
   Widget build(BuildContext context) {
-    RxInt score = GameLogic.score; // Replace with your logic
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    RxInt score = GameLogic.score;  
+    return Scaffold(
         body: Stack(
           children: <Widget>[
             const GameWidget.controlled(
@@ -38,7 +36,6 @@ class Ui extends StatelessWidget {
             // Score text
           ],
         ),
-      ),
-    );
+      );
   }
 }

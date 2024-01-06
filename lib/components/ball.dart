@@ -29,7 +29,7 @@ class Ball extends BodyComponent with ContactCallbacks {
     );
   }
   Color getNextBallColor() {
-    List<double> radiuses = [15, 30, 45, 60, 75, 90, 105, 120];
+    List<double> radiuses = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100,110,120];
     int nextRadiusIndex = Random().nextInt(radiuses.length);
     double nextRadius = radiuses[nextRadiusIndex];
     return getColorForRadius(
@@ -39,22 +39,31 @@ class Ball extends BodyComponent with ContactCallbacks {
   Color getColorForRadius(double radius) {
     // Define color based on radius
     switch (radius.toInt()) {
-      case 15:
+      case 10:
         return Colors.red;
-      case 30:
-        return Colors.blue;
-      case 45:
-        return Colors.green;
-      case 60:
-        return Colors.yellow;
-      case 75:
-        return Colors.purple;
-      case 90:
+      case 20:
         return Colors.orange;
-      case 105:
+      case 30:
+        return Colors.yellow;
+      case 40:
+        return Colors.green;
+      case 50:
+        return Colors.blue;
+      case 60:
+        return Colors.indigo;
+      case 70:
+        return Colors.purple;
+      case 80:
         return Colors.pink;
-      case 120:
+      case 90:
+        return Colors.brown;
+      case 100:
         return Colors.teal;
+      case 110:
+        return Colors.cyan;
+      case 120:
+        return Colors.blue;
+      
       // Add more cases as needed
       default:
         return Colors.grey; // Default color
